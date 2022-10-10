@@ -7,11 +7,11 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
 
-class RNUtubePackage : ReactPackage {
+class YoutubePlayerPackage : ReactPackage {
 
     override fun createViewManagers(reactContext: ReactApplicationContext): MutableList<ViewManager<out View, out ReactShadowNode<*>>> {
         return mutableListOf(
-            RNUtubeView()
+            YoutubePlayerView()
         )
     }
 
