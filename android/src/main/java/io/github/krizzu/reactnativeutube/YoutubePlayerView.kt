@@ -1,8 +1,5 @@
 package io.github.krizzu.reactnativeutube
 
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
@@ -10,7 +7,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
-class YoutubePlayerView : SimpleViewManager<LinearLayout>() {
+class YoutubePlayerView : SimpleViewManager<YouTubePlayerView>() {
 
     override fun getName() = "YoutubePlayerView"
 
@@ -18,26 +15,19 @@ class YoutubePlayerView : SimpleViewManager<LinearLayout>() {
     private var videoId: String? = null
 
     @ReactProp(name = "videoId")
-    fun setVideoId(view: LinearLayout, newId: String?) {
+    fun setVideoId(view: YouTubePlayerView, newId: String?) {
         if (newId == null || newId == videoId) return
         videoId = newId
         ytPlayerView?.loadVideo(newId, 0f)
     }
 
-    override fun createViewInstance(reactContext: ThemedReactContext): LinearLayout {
+    override fun createViewInstance(reactContext: ThemedReactContext): YouTubePlayerView {
         val player = YouTubePlayerView(reactContext)
-        val layoutParams: ViewGroup.LayoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        val linearLayout = LinearLayout(reactContext)
-        linearLayout.orientation = LinearLayout.VERTICAL
-        linearLayout.addView(player, layoutParams)
-        player.initialize(object : AbstractYouTubePlayerListener() {
+        player.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 ytPlayerView = youTubePlayer
             }
         })
-        return linearLayout
+        return player
     }
 }
