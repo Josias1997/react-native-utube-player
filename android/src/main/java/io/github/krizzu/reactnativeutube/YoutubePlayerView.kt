@@ -17,7 +17,7 @@ class YoutubePlayerView : SimpleViewManager<LinearLayout>() {
     private var videoId: String? = null
 
     @ReactProp(name = "videoId")
-    fun setVideoId(view: YouTubePlayerView, newId: String?) {
+    fun setVideoId(view: LinearLayout, newId: String?) {
         if (newId == null || newId == videoId) return
         videoId = newId
         ytPlayerView?.loadVideo(newId, 0f)
@@ -32,7 +32,7 @@ class YoutubePlayerView : SimpleViewManager<LinearLayout>() {
         val linearLayout = LinearLayout(reactContext)
         linearLayout.orientation = LinearLayout.VERTICAL
         linearLayout.addView(player, layoutParams)
-        player.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        player.initialize(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 ytPlayerView = youTubePlayer
             }
